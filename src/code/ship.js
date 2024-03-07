@@ -1,7 +1,7 @@
 const Ship = (length) => {
   if (length > 4 || length < 1) {
-    throw new Error('Invalid ship length: Length must be between 1 and 4.');
-  };
+    throw new Error('Invalid ship length: Length must be between 1 and 4');
+  }
 
   const ship = {
     length: length,
@@ -10,21 +10,19 @@ const Ship = (length) => {
   };
 
   const getLength = () => {
-    return ship.length; 
+    return ship.length;
   };
 
   const hit = () => {
-    ship.hits++; 
-    if (ship.hits === ship.length) 
-      ship.sunk = true; 
-  };
-  
-  const isSunk = () => {
-    return ship.sunk; 
+    ship.hits++;
+    if (ship.hits === ship.length) ship.sunk = true;
   };
 
+  const isSunk = () => {
+    return ship.sunk;
+  };
 
   return { getLength, hit, isSunk };
 };
 
-module.exports = Ship; 
+module.exports = Ship;
