@@ -25,4 +25,12 @@ describe('ship factory function', () => {
 
     expect(newShip.isSunk()).toBe(true);
   });
+
+  it('ship rotate works', () => {
+    const newShip = testShip(3); 
+    const anotherShip = testShip(3); 
+    newShip.rotateShip(); 
+    expect(newShip.getAxis()).toBe('y');
+    expect(anotherShip.getAxis()).toBe('x'); 
+  });
 });
