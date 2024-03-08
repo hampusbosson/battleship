@@ -27,10 +27,10 @@ describe('ship factory function', () => {
   });
 
   it('ship rotate works', () => {
-    const newShip = testShip(3); 
-    const anotherShip = testShip(3); 
-    newShip.rotateShip(); 
+    const newShip = testShip(3);
+    const anotherShip = testShip(3);
+    newShip.rotateShip();
     expect(newShip.getAxis()).toBe('y');
-    expect(anotherShip.getAxis()).toBe('x'); 
+    expect(anotherShip.getAxis()).toBe('x');
   });
 });
