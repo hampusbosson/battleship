@@ -1,4 +1,4 @@
-const Ship = (length) => {
+const Ship = (length, id) => {
   if (length > 4 || length < 1) {
     throw new Error('Invalid ship length: Length must be between 1 and 4.');
   }
@@ -7,18 +7,23 @@ const Ship = (length) => {
     length: length,
     hits: 0,
     sunk: false,
-    axis: 'x'
+    axis: 'x',
+    id: id,
   };
 
-  const getLength = () => ship.length; 
+  const getLength = () => ship.length;
 
-  const getAxis = () => ship.axis; 
+  const getAxis = () => ship.axis;
+
+  const getID = () => ship.id;
+
+  const getHits = () => ship.hits;
 
   const rotateShip = () => {
     if (ship.axis === 'x') {
-      ship.axis = 'y'; 
+      ship.axis = 'y';
     } else {
-      ship.axis = 'x'; 
+      ship.axis = 'x';
     }
   };
 
@@ -31,7 +36,7 @@ const Ship = (length) => {
     return ship.sunk;
   };
 
-  return { getLength, getAxis, hit, isSunk, rotateShip };
+  return { getLength, getAxis, getID, getHits, hit, isSunk, rotateShip };
 };
 
 module.exports = Ship;
