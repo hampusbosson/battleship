@@ -60,11 +60,15 @@ const Gameboard = () => {
     return false; // No squares are occupied
   };
 
+  const squareAttacked = (x, y) => {
+    return (board[x][y] === 'x'); 
+  };
+
   const receiveAttack = (x, y) => {
     if (x < 0 || x >= 10 || y < 0 || y >= 10)
       throw new Error('Cannot attack outside of 10x10 board!');
 
-    if (board[x][y] === 'x') throw new Error('Square is already attacked!');
+    if (squareAttacked(x, y)) throw new Error('Square is already attacked!');
 
     if (board[x][y] === 0) {
       board[x][y] = 'x'; // Mark as missed attack
@@ -96,6 +100,7 @@ const Gameboard = () => {
     receiveAttack,
     allShipsAreSunk,
     resetBoard,
+    squareAttacked
   };
 };
 
