@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'bebas';
+    src: url('./assets/fonts/Bebas_Neue\,Roboto/Bebas_Neue/BebasNeue-regular.ttf');
+}
+
+body {
+    height: 100vh;
+    width: 100vw; 
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.598), /* Semi-transparent black */
+        rgba(0, 0, 0, 0.321)
+    ), url('./assets/images/background.webp');
+}
+
+body, 
+h1, 
+p {
+    margin: 0; 
+}
+
+.content {
+    height: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pregame-card {
+    height: 25rem;
+    width: 35rem;
+    background-color: rgba(0, 0, 0, 0.865);
+    color: white; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem; 
+    border-radius: 15px;  
+}
+
+.pregame-header {
+    margin-top: 3rem;
+    font-size: 5rem;  
+    font-family: 'bebas';
+    letter-spacing: 3px;
+}
+
+.input-box {
+    border-bottom: 1px solid white; 
+}
+
+.name-input {
+    height: 3rem;
+    width: 13rem;
+    border: none;
+    outline: none;
+    background: none; 
+    color: white;
+    font-size: 1.4rem;
+    border-radius: 10px; 
+    text-align: center;
+}
+
+.start-button {
+    height: 3rem;
+    width: 13rem; 
+    background: none;
+    border: none; 
+    outline: none;
+    color: rgb(189, 189, 189);
+    font-size: 1.3rem;
+}
+
+.start-button:hover {
+    background-color: rgb(67, 66, 66);
+    border-radius: 10px; 
+    cursor: pointer;
+}
