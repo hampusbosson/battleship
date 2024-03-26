@@ -1,4 +1,9 @@
 const helper = (() => {
+    const restorePage = () => {
+        const content = document.getElementById('content');
+        content.innerHTML = ''; 
+    };
+
     const create = (type, data) => {
         if (!type) console.log('missing type'); 
 
@@ -13,7 +18,8 @@ const helper = (() => {
 
 
     return {
-        create
+        create,
+        restorePage
     };
 })();
 
