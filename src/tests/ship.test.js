@@ -6,14 +6,14 @@ describe('ship factory function', () => {
   });
 
   it('throws an error if ship length is too large', () => {
-    expect(() => testShip(5)).toThrow(
-      'Invalid ship length: Length must be between 1 and 4.',
+    expect(() => testShip(6)).toThrow(
+      'Invalid ship length: Length must be between 1 and 5.',
     );
   });
 
   it('throws an error if ship length is too small', () => {
     expect(() => testShip(0)).toThrow(
-      'Invalid ship length: Length must be between 1 and 4.',
+      'Invalid ship length: Length must be between 1 and 5.',
     );
   });
 
