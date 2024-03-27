@@ -66,12 +66,30 @@ const helper = (() => {
     return lettersContainer; 
   }; 
 
+  const shipIcons = [
+    '../assets/icons/carrier.svg',
+    '../assets/icons/battleship.svg',
+    '../assets/icons/cruiser.svg',
+    '../assets/icons/submarine.svg',
+    '../assets/icons/destroyer.svg'
+  ];
+
+  let shipNames = [
+    'Carrier (5f)',
+    'Battleship (4f)',
+    'Cruiser (4f)',
+    'Submarine (3f)',
+    'Destroyer (2f)'
+  ];
+
   return {
     create,
     restorePage,
     loadGridSquare,
     loadLetterSection,
-    loadNumberSection
+    loadNumberSection,
+    shipIcons,
+    shipNames
   };
 })();
 
