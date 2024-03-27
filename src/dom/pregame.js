@@ -1,4 +1,5 @@
 import helper from './helper';
+import CombatSetup from './combatSetup';
 
 const pregame = (() => {
   const loadCard = () => {
@@ -37,7 +38,7 @@ const pregame = (() => {
     });
 
     textBox.appendChild(textInput);
-    
+
     return textBox;
   };
 
@@ -54,6 +55,7 @@ const pregame = (() => {
     });
 
     startButton.appendChild(text);
+    startButton.addEventListener('click', () => CombatSetup.loadSetupContent()); 
 
     return startButton;
   };
