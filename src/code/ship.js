@@ -1,6 +1,6 @@
 const Ship = (length, id) => {
-  if (length > 4 || length < 1) {
-    throw new Error('Invalid ship length: Length must be between 1 and 4.');
+  if (length > 5 || length < 1) {
+    throw new Error('Invalid ship length: Length must be between 1 and 5.');
   }
 
   const ship = {
