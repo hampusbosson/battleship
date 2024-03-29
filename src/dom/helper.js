@@ -25,8 +25,8 @@ const helper = (() => {
   };
 
   const loadGridSquare = () => {
-    const gridContainer = helper.create('div', { className: 'setup-grid-container'});
-    const gridSquare = helper.create('div', { className: 'setup-grid' });
+    const gridContainer = helper.create('div', { className: 'setup-grid-container' });
+    const gridSquare = helper.create('div', { className: 'setup-grid', id: 'setup-grid' });
 
     loadGrid().forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
@@ -74,13 +74,22 @@ const helper = (() => {
     '../assets/icons/destroyer.svg'
   ];
 
-  let shipNames = [
+  const shipNames = [
     'Carrier (5f)',
     'Battleship (4f)',
     'Cruiser (4f)',
     'Submarine (3f)',
     'Destroyer (2f)'
   ];
+
+  const ships = {
+    0: { length: 5, name: 'Carrier' },
+    1: { length: 4, name: 'Battleship' },
+    2: { length: 4, name: 'Cruiser' },
+    3: { length: 3, name: 'Submarine' },
+    4: { length: 2, name: 'Destroyer' }
+};
+
 
   return {
     create,
@@ -89,7 +98,8 @@ const helper = (() => {
     loadLetterSection,
     loadNumberSection,
     shipIcons,
-    shipNames
+    shipNames,
+    ships
   };
 })();
 
