@@ -3,6 +3,21 @@
     src: url('./assets/fonts/Bebas_Neue\,Roboto/Bebas_Neue/BebasNeue-regular.ttf');
 }
 
+@font-face {
+    font-family: 'roboto-light';
+    src: url('./assets/fonts/Bebas_Neue\,Roboto/Roboto/Roboto-Light.ttf');
+}
+
+@font-face {
+    font-family: 'roboto-medium';
+    src: url('./assets/fonts/Bebas_Neue\,Roboto/Roboto/Roboto-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'roboto-regular';
+    src: url('./assets/fonts/Bebas_Neue\,Roboto/Roboto/Roboto-Regular.ttf');
+}
+
 body {
     height: 100vh;
     width: 100vw; 
@@ -10,6 +25,9 @@ body {
         rgba(0, 0, 0, 0.598), /* Semi-transparent black */
         rgba(0, 0, 0, 0.321)
     ), url('./assets/images/background.webp');
+    background-size: cover; /* Ensure the image covers the whole element */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    font-family: 'roboto-light';
 }
 
 body, 
@@ -25,10 +43,12 @@ p {
     align-items: center;
 }
 
+/* pregame page */
+
 .pregame-card {
     height: 25rem;
     width: 35rem;
-    background-color: rgba(0, 0, 0, 0.865);
+    background-color: rgba(0, 0, 0, 0.75);
     color: white; 
     display: flex;
     flex-direction: column;
@@ -75,3 +95,177 @@ p {
     border-radius: 10px; 
     cursor: pointer;
 }
+
+/* board-setup page */
+
+.setup-container {
+    display: flex;
+    width: 50rem;
+    height: 45rem;
+    min-width: 50rem;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 15px; 
+}
+
+.setup-board {
+    width: 31.25rem;
+    margin-left: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem; 
+}
+
+.setup-grid-container {
+    display: grid;
+    grid-template-columns: auto 1fr; 
+    grid-template-rows: auto 1fr; 
+    gap: 0; 
+}
+
+.setup-grid {
+    height: 31.25rem; /* Adjusted for 10 squares including borders */
+    width: 31.25rem; /* Adjusted for 10 squares including borders */
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 2 / span 2; /* Spans from the second to the third column */
+    grid-row: 2; /* Second row */
+}
+
+.letters-container {
+    display: flex; 
+    grid-column: 2 / span 1;
+    grid-row: 1; 
+    justify-content: space-between;
+    margin: 0 1.2rem 0.4rem;
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.5)
+}
+
+.letter {
+    width: 10px; 
+}
+
+.numbers-container {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1; /* First column */
+    grid-row: 2 / span 1; /* Spans second row */
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.6rem;
+    margin-bottom: 1.8rem;
+    margin-right: 0.8rem;
+    font-size: 1.4rem;
+    color: rgba(255, 255, 255, 0.5)
+}
+
+.number {
+    height: 10px;
+}
+
+.grid-square {
+    height: 3rem;
+    width: 3rem;
+    background-color: rgba(88, 110, 128, 0.45);
+    border: 1px solid rgba(170, 170, 170, 0.915);
+}
+
+.grid-square:hover {
+    background-color: rgba(88, 110, 128, 0.794);
+}
+
+.grid-highlight {
+    background-color: rgba(88, 110, 128, 0.794);
+}
+
+.setup-top-btns {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2rem; 
+    margin-left: 2.4rem;
+    margin-top: 2rem;
+}
+
+.setup-bottom-btns {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 3rem; 
+    margin-left: 2.4rem;
+    margin-top: 0.4rem; 
+}
+
+.setup-btn {
+    background: none;
+    outline: none;
+    border: 1px solid lightgray;
+    color: lightgray;
+    margin: 0; 
+    border-radius: 5px;
+    height: 2.5rem;
+    width: 9rem;
+    font-family: 'roboto-light';
+}
+
+#reset-btn, #confirm-btn {
+    height: 3rem;
+    width: 11rem;
+    font-size: 1.2rem;
+}
+
+.setup-btn:hover, .ship-box:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.fleet-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
+    align-items: center;
+    justify-content: center;
+    color: lightgray;
+    margin-left: 1.5rem; 
+}
+
+.ship-box {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.277);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem; 
+    height: 6.5rem;
+    width: 8rem;
+    border: 1px solid rgba(255, 255, 255, 0.501);
+    border-radius: 10px;  
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ship-box-highlight {
+    border: 1px solid white; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.735);
+    background-color: black;
+    height: 6.7rem;
+    width: 8.2rem;
+}
+
+.ship-icon {
+    width: 6rem;
+    height: 2.5rem; 
+
+}
+
+.ship-text {
+    color: gray; 
+}
+
+.ship-text-highlight {
+    color: white;
+}
+
+
+
