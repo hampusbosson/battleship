@@ -7,8 +7,8 @@ const Ship = (length, id) => {
     length: length,
     hits: 0,
     sunk: false,
-    axis: 'x',
-    id: id,
+    axis: 'y',
+    id: id + 1,
   };
 
   const getLength = () => ship.length;
