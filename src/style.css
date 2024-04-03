@@ -110,7 +110,6 @@ p {
 .setup-board {
     width: 31.25rem;
     margin-left: 1.5rem;
-
     display: flex;
     flex-direction: column;
     gap: 1.2rem; 
@@ -130,6 +129,8 @@ p {
     flex-wrap: wrap;
     grid-column: 2 / span 2; /* Spans from the second to the third column */
     grid-row: 2; /* Second row */
+    background-color: rgba(0, 0, 0, 0.673);
+
 }
 
 .letters-container {
@@ -167,16 +168,17 @@ p {
 .grid-square {
     height: 3rem;
     width: 3rem;
-    background-color: rgba(88, 110, 128, 0.45);
-    border: 1px solid rgba(170, 170, 170, 0.915);
+    background-color: rgba(88, 110, 128, 0.267);
+    border: 1px solid rgba(170, 170, 170, 0.503);    
 }
 
 .grid-square:hover {
-    background-color: rgba(88, 110, 128, 0.794);
+    background-color: rgba(88, 110, 128, 0.562);
 }
 
 .grid-highlight {
-    background-color: rgba(88, 110, 128, 0.794);
+    background-color: rgba(88, 110, 128, 0.562);
+
 }
 
 .setup-top-btns {
@@ -253,10 +255,22 @@ p {
     width: 8.2rem;
 }
 
+.ship-box-placed {
+    border: none;
+    box-shadow: none;
+    height: 6.5rem;
+    width: 8rem;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ship-box-placed:hover {
+    transform: none;
+    cursor: default;
+}
+
 .ship-icon {
     width: 6rem;
     height: 2.5rem; 
-
 }
 
 .ship-text {
@@ -267,5 +281,27 @@ p {
     color: white;
 }
 
+.ship-text-placed {
+    color: transparent;
+}
+
+.axis-highlight {
+    background-color: white;
+    color: black;
+}
+
+#ship-container {
+    background: transparent;
+}
+
+
+/* ship icons classes: */ 
+
+.ship {
+    height: 100%;
+    width: 100%;
+    
+}
+  
 
 
