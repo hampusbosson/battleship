@@ -25,19 +25,21 @@ const helper = (() => {
   };
 
   const loadGridSquare = () => {
-    const gridContainer = helper.create('div', { className: 'setup-grid-container' });
-    const gridSquare = helper.create('div', { className: 'setup-grid', id: 'setup-grid' });
+    const gridContainer = helper.create('div', { className: 'setup-grid-container', position: 'relative' });
+    const gridSquare = helper.create('div', { className: 'setup-grid', id: 'setup-grid', position: 'absolute' });
+    gridSquare.style.zIndex = '1'; 
 
     loadGrid().forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
         let square = helper.create('div', {
           className: 'grid-square',
-          id: `square-${rowIndex}-${columnIndex}`,
+          id: `${rowIndex}${columnIndex}`,
         });
         gridSquare.appendChild(square);
       });
     });
-    gridContainer.append(loadLetterSection(), loadNumberSection(), gridSquare); 
+
+    gridContainer.append(loadLetterSection(), loadNumberSection(), gridSquare ); 
 
     return gridContainer;
   };
@@ -90,6 +92,38 @@ const helper = (() => {
     4: { length: 2, name: 'Destroyer' }
 };
 
+const resetGridSquares = () => {
+  const gridSquares = document.querySelectorAll('.grid-square');
+  
+  gridSquares.forEach((square) => {
+    square.classList.remove('grid-highlight');
+  });
+};
+
+function placeShipIcon(startSquare, shipType, axis, shipLength) {
+  const shipContainer = create('div', {id: 'ship-container'});
+  shipContainer.classList.add(`${shipType}-${axis}`);
+
+  if (axis === 'y') {
+    shipContainer.style.height = `${shipLength * 3}rem`;
+    shipContainer.style.width = '3rem';
+  } else {
+    shipContainer.style.width = `${shipLength * 3}rem`;
+    shipContainer.style.height = '3rem';
+  }
+
+  let iconURL = `../assets/icons/${shipType}-${axis}.svg`;
+  let icon = create('img', {src: iconURL, className: 'ship'});
+  shipContainer.appendChild(icon);
+
+  shipContainer.style.position = 'absolute'; 
+  shipContainer.style.zIndex = '-1';
+
+  let square = document.getElementById(`${startSquare.id}`);
+  square.prepend(shipContainer);
+};
+
+
 
   return {
     create,
@@ -97,6 +131,8 @@ const helper = (() => {
     loadGridSquare,
     loadLetterSection,
     loadNumberSection,
+    placeShipIcon,
+    resetGridSquares,
     shipIcons,
     shipNames,
     ships
