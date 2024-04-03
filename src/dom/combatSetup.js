@@ -1,10 +1,18 @@
 import helper from './helper';
+import PlaceShips from './placeShips';
 
 const CombatSetup = (() => {
+  let activeAxis = 'x'; 
+
+  const getActiveAxis = () => activeAxis;
+
   const loadSetupContent = () => {
     helper.restorePage();
     const content = document.getElementById('content');
     content.append(loadGameboard());    
+
+    PlaceShips.shipBoxSelector();
+    PlaceShips.placeShip();
   };
 
   const loadGameboard = () => {
@@ -33,12 +41,14 @@ const CombatSetup = (() => {
   
     buttons.xAxisBtn.addEventListener('click', () => {
       removeHighlightFromAllButtons(); 
-      buttons.xAxisBtn.classList.add('axis-highlight'); 
+      buttons.xAxisBtn.classList.add('axis-highlight');
+      activeAxis = 'x'; 
     });
   
     buttons.yAxisBtn.addEventListener('click', () => {
       removeHighlightFromAllButtons(); 
       buttons.yAxisBtn.classList.add('axis-highlight'); 
+      activeAxis = 'y';
     });
 
     return buttonBox;
@@ -96,7 +106,8 @@ const CombatSetup = (() => {
   };
 
   return {
-    loadSetupContent
+    loadSetupContent,
+    getActiveAxis
   };
 })();
 
