@@ -7,6 +7,7 @@ const PlaceShips = (() => {
   let currentMouseOverHandlers = new Map();
   let currentMouseOutHandlers = new Map();
   let playerBoard = Gameboard();
+  let outOfBounds = false;
 
   const selectedShip = {
     0: false,
@@ -50,21 +51,21 @@ const PlaceShips = (() => {
         let shipId = ship.id;
         shipLength = helper.ships[shipId].length;
         lightGridSquares(shipLength, CombatSetup.getActiveAxis());
-        
       });
     });
 
     document.addEventListener('click', (event) => {
       // If the clicked element is not a ship-box, reset all ship boxes
       if (!event.target.closest('.ship-box')) {
-        resetShipBoxes();
-        resetSelectedShip();
+        if (!outOfBounds) {
+            resetSelectedShip();
+            resetShipBoxes();
+        }
       }
     });
 
     return shipLength;
   };
-  
 
   const resetShipBoxes = () => {
     const shipBox = document.querySelectorAll('.ship-box');
@@ -100,28 +101,41 @@ const PlaceShips = (() => {
   
       // Define new handlers
       const mouseOverHandler = () => {
-        // Calculate endIndex differently based on the axis
-        let endIndex;
-        if (axis === 'x') {
-          endIndex = index + shipLength - 1;
-        } else if (axis === 'y') {
-          endIndex = index + (shipLength - 1) * gridWidth;
+        let endIndex = index + (axis === 'x' ? shipLength - 1 : (shipLength - 1) * gridWidth);
+        let placementIsValid = true; // Assume valid until proven otherwise
+  
+        // First pass: Check if any part of the placement is invalid
+        for (let i = index; i <= endIndex && placementIsValid; i += (axis === 'x' ? 1 : gridWidth)) {
+          if (i >= gridSquares.length || (axis === 'x' && Math.floor(i / gridWidth) !== Math.floor(index / gridWidth))) {
+            placementIsValid = false;
+            break; // Stop checking if we already know the placement is invalid
+          }
+  
+          let [x, y] = gridSquares[i].id.split('').map(Number); // Using Number as a shorthand
+          if (playerBoard.isOccupied(x, y)) {
+            placementIsValid = false;
+            break; // Stop checking if we find any square is occupied
+          }
         }
   
-        for (let i = index; i <= endIndex; i += (axis === 'x' ? 1 : gridWidth)) {
+        // Second pass: Apply classes based on placement validity
+        for (let i = index; i <= endIndex && i < gridSquares.length; i += (axis === 'x' ? 1 : gridWidth)) {
           if (axis === 'x' && Math.floor(i / gridWidth) !== Math.floor(index / gridWidth)) {
-            // If highlighting horizontally and we've moved to a new row, stop.
-            break;
+            break; // Additional safeguard for horizontal axis
           }
-          if (i < gridSquares.length) {
-            gridSquares[i].classList.add('grid-highlight');
+  
+          const square = gridSquares[i];
+          if (placementIsValid) {
+            square.classList.add('grid-highlight');
+          } else {
+            square.classList.add('grid-square-invalid', 'grid-highlight-invalid');
           }
         }
       };
   
       const mouseOutHandler = () => {
         gridSquares.forEach(square => {
-          square.classList.remove('grid-highlight');
+          square.classList.remove('grid-highlight', 'grid-highlight-invalid', 'grid-square-invalid');
         });
       };
   
@@ -139,7 +153,7 @@ const PlaceShips = (() => {
     const gridSquares = document.querySelectorAll('.grid-square');
     gridSquares.forEach((square) => {
       square.addEventListener('click', () => {
-        if (!isShipSelected()) {
+        if (!isShipSelected() || outOfBounds) {
             return;
         }
         //remove highlight on gridsquares
