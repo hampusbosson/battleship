@@ -7,7 +7,17 @@ const PlaceShips = (() => {
   let currentMouseOverHandlers = new Map();
   let currentMouseOutHandlers = new Map();
   let playerBoard = Gameboard();
-  let outOfBounds = false;
+
+  const gameState = (() => {
+    let placementIsValid = true; 
+
+    return {
+        setPlacementValid: (isValid) => {
+            placementIsValid = isValid;
+        },
+        isPlacementValid: () => placementIsValid,
+    };
+  })();
 
   const selectedShip = {
     0: false,
@@ -43,7 +53,6 @@ const PlaceShips = (() => {
         resetSelectedShip();
 
         selectedShip[ship.id] = true;
-        console.log(selectedShip);
 
         ship.classList.add('ship-box-highlight');
         ship.lastChild.classList.add('ship-text-highlight');
@@ -57,7 +66,7 @@ const PlaceShips = (() => {
     document.addEventListener('click', (event) => {
       // If the clicked element is not a ship-box, reset all ship boxes
       if (!event.target.closest('.ship-box')) {
-        if (!outOfBounds) {
+        if (gameState.isPlacementValid()) {
             resetSelectedShip();
             resetShipBoxes();
         }
@@ -102,18 +111,21 @@ const PlaceShips = (() => {
       // Define new handlers
       const mouseOverHandler = () => {
         let endIndex = index + (axis === 'x' ? shipLength - 1 : (shipLength - 1) * gridWidth);
-        let placementIsValid = true; // Assume valid until proven otherwise
+        let placementIsValid = true; 
+        gameState.setPlacementValid(placementIsValid); // Assume valid until proven otherwise
   
         // First pass: Check if any part of the placement is invalid
         for (let i = index; i <= endIndex && placementIsValid; i += (axis === 'x' ? 1 : gridWidth)) {
           if (i >= gridSquares.length || (axis === 'x' && Math.floor(i / gridWidth) !== Math.floor(index / gridWidth))) {
             placementIsValid = false;
+            gameState.setPlacementValid(placementIsValid);
             break; // Stop checking if we already know the placement is invalid
           }
   
           let [x, y] = gridSquares[i].id.split('').map(Number); // Using Number as a shorthand
           if (playerBoard.isOccupied(x, y)) {
             placementIsValid = false;
+            gameState.setPlacementValid(placementIsValid);
             break; // Stop checking if we find any square is occupied
           }
         }
@@ -153,7 +165,7 @@ const PlaceShips = (() => {
     const gridSquares = document.querySelectorAll('.grid-square');
     gridSquares.forEach((square) => {
       square.addEventListener('click', () => {
-        if (!isShipSelected() || outOfBounds) {
+        if (!isShipSelected() || !gameState.isPlacementValid()) {
             return;
         }
         //remove highlight on gridsquares
