@@ -100,7 +100,7 @@ const resetGridSquares = () => {
   });
 };
 
-function placeShipIcon(startSquare, shipType, axis, shipLength) {
+const placeShipIcon = (startSquare, shipType, axis, shipLength) => {
   const shipContainer = create('div', {id: 'ship-container'});
   shipContainer.classList.add(`${shipType}-${axis}`);
 
@@ -123,7 +123,15 @@ function placeShipIcon(startSquare, shipType, axis, shipLength) {
   square.prepend(shipContainer);
 };
 
+const resetGameboardGrid = () => {
+  const gridSquares = document.querySelectorAll('.grid-square');
 
+  gridSquares.forEach(square => {
+    while(square.firstChild) {
+      square.removeChild(square.firstChild);
+    }
+  });
+};
 
   return {
     create,
@@ -133,6 +141,7 @@ function placeShipIcon(startSquare, shipType, axis, shipLength) {
     loadNumberSection,
     placeShipIcon,
     resetGridSquares,
+    resetGameboardGrid,
     shipIcons,
     shipNames,
     ships
