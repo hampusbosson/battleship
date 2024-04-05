@@ -8,6 +8,10 @@ const PlaceShips = (() => {
   let currentMouseOutHandlers = new Map();
   let playerBoard = Gameboard();
 
+  const getPlayerBoard = () => {
+    return playerBoard;
+  };
+
   const shipPlacement = (() => {
     let placementIsValid = true; 
 
@@ -133,9 +137,7 @@ const PlaceShips = (() => {
 
   const removeShipBoxContent = (shipId) => {
     const selectedShipBox = document.getElementById(`${shipId}`);
-    if (selectedShipBox.firstChild) {
-        selectedShipBox.removeChild(selectedShipBox.firstChild);
-    }
+    selectedShipBox.firstChild.classList.add('ship-icon-placed');
     selectedShipBox.lastChild.classList.add('ship-text-placed');
     selectedShipBox.classList.add('ship-box-placed');
   };
@@ -246,7 +248,8 @@ const PlaceShips = (() => {
   return {
     shipBoxSelector,
     placeShip,
-    updateGridHighlights
+    updateGridHighlights,
+    getPlayerBoard
   };
 
 })();
