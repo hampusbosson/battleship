@@ -8,7 +8,7 @@ const PlaceShips = (() => {
   let currentMouseOutHandlers = new Map();
   let playerBoard = Gameboard();
 
-  const gameState = (() => {
+  const shipPlacement = (() => {
     let placementIsValid = true; 
 
     return {
@@ -42,38 +42,72 @@ const PlaceShips = (() => {
     return false; // Return false if no selected ship is found
   };
 
+  const getSelectedShipID = () => {
+    let id = '0'; 
+    for (const key in selectedShip) {
+        if (selectedShip[key] === true) {
+            id = key;
+        } 
+    }
+    return id.toString(); 
+  };
+
+  const selectShip = (shipId) => {
+    resetShipBoxes();
+    resetSelectedShip();
+    if (playerBoard.shipPlaced(parseInt(shipId) + 1)) {
+        return;
+    }
+    selectedShip[shipId] = true; // Assuming selectedShip is accessible at this scope
+  
+    // Update UI to reflect the selected ship
+    const shipBox = document.getElementById(shipId);
+    shipBox.classList.add('ship-box-highlight');
+    shipBox.lastChild.classList.add('ship-text-highlight');
+  
+    // Update grid highlights based on the newly selected ship
+    updateGridHighlights();
+  };
+  
+  const updateGridHighlights = () => {
+    if (!isShipSelected()) {
+        return;
+    }
+    let shipId = getSelectedShipID(); // Ensure this returns the ID as a string, which is key in helper.ships
+    let shipLength = helper.ships[shipId].length;
+    lightGridSquares(shipLength, CombatSetup.getActiveAxis());
+  };
+
   const shipBoxSelector = () => {
-    let shipLength = 0;
-    const shipBox = document.querySelectorAll('.ship-box');
-    shipBox.forEach((ship) => {
-      ship.addEventListener('click', () => {
-        event.stopPropagation();
-
-        resetShipBoxes();
-        resetSelectedShip();
-
-        selectedShip[ship.id] = true;
-
-        ship.classList.add('ship-box-highlight');
-        ship.lastChild.classList.add('ship-text-highlight');
-
-        let shipId = ship.id;
-        shipLength = helper.ships[shipId].length;
-        lightGridSquares(shipLength, CombatSetup.getActiveAxis());
+    const shipBoxes = document.querySelectorAll('.ship-box');
+    shipBoxes.forEach((ship) => {
+      ship.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent event bubbling
+        console.log(ship.id);
+        selectShip(ship.id); // Pass the ID of the clicked ship to selectShip
       });
     });
 
-    document.addEventListener('click', (event) => {
-      // If the clicked element is not a ship-box, reset all ship boxes
-      if (!event.target.closest('.ship-box')) {
-        if (gameState.isPlacementValid()) {
-            resetSelectedShip();
-            resetShipBoxes();
+    //set placementValid to true everytime mouse is not over grid
+    document.addEventListener('mouseover', () => {
+        const isgridClicked = event.target.closest('.setup-grid');
+        if (!isgridClicked) {
+            shipPlacement.setPlacementValid(true);
         }
-      }
-    });
+      });
 
-    return shipLength;
+    document.addEventListener('click', (event) => {
+        // Check if the clicked element or any of its parents match the '.ship-box' selector
+        const isShipBoxClick = event.target.closest('.ship-box');
+        // Check if the clicked element's ID is 'xAxisBtn' or 'yAxisBtn'
+        const isAxisButtonClick = event.target.id === 'xAxis-btn' || event.target.id === 'yAxis-btn';
+
+        // If the click is not on a ship box and not on the axis buttons, and the placement is valid
+        if (!isShipBoxClick && !isAxisButtonClick && shipPlacement.isPlacementValid()) {
+          resetSelectedShip();
+          resetShipBoxes();
+        }
+      });
   };
 
   const resetShipBoxes = () => {
@@ -97,6 +131,15 @@ const PlaceShips = (() => {
     });
   };
 
+  const removeShipBoxContent = (shipId) => {
+    const selectedShipBox = document.getElementById(`${shipId}`);
+    if (selectedShipBox.firstChild) {
+        selectedShipBox.removeChild(selectedShipBox.firstChild);
+    }
+    selectedShipBox.lastChild.classList.add('ship-text-placed');
+    selectedShipBox.classList.add('ship-box-placed');
+  };
+
   const lightGridSquares = (shipLength, axis) => {
     const gridSquares = document.querySelectorAll('.grid-square');
     const gridWidth = 10; // Assuming a grid width of 10 for this example
@@ -112,20 +155,20 @@ const PlaceShips = (() => {
       const mouseOverHandler = () => {
         let endIndex = index + (axis === 'x' ? shipLength - 1 : (shipLength - 1) * gridWidth);
         let placementIsValid = true; 
-        gameState.setPlacementValid(placementIsValid); // Assume valid until proven otherwise
+        shipPlacement.setPlacementValid(placementIsValid); // Assume valid until proven otherwise
   
         // First pass: Check if any part of the placement is invalid
         for (let i = index; i <= endIndex && placementIsValid; i += (axis === 'x' ? 1 : gridWidth)) {
           if (i >= gridSquares.length || (axis === 'x' && Math.floor(i / gridWidth) !== Math.floor(index / gridWidth))) {
             placementIsValid = false;
-            gameState.setPlacementValid(placementIsValid);
+            shipPlacement.setPlacementValid(placementIsValid);
             break; // Stop checking if we already know the placement is invalid
           }
   
           let [x, y] = gridSquares[i].id.split('').map(Number); // Using Number as a shorthand
           if (playerBoard.isOccupied(x, y)) {
             placementIsValid = false;
-            gameState.setPlacementValid(placementIsValid);
+            shipPlacement.setPlacementValid(placementIsValid);
             break; // Stop checking if we find any square is occupied
           }
         }
@@ -165,7 +208,7 @@ const PlaceShips = (() => {
     const gridSquares = document.querySelectorAll('.grid-square');
     gridSquares.forEach((square) => {
       square.addEventListener('click', () => {
-        if (!isShipSelected() || !gameState.isPlacementValid()) {
+        if (!isShipSelected() || !shipPlacement.isPlacementValid()) {
             return;
         }
         //remove highlight on gridsquares
@@ -194,10 +237,7 @@ const PlaceShips = (() => {
 
         helper.placeShipIcon(square, shipName, rotationAxis, shipLength);
 
-        const selectedShipBox = document.getElementById(`${selectedShipId}`);
-        selectedShipBox.classList.add('ship-box-placed');
-        selectedShipBox.lastChild.classList.add('ship-text-placed');
-
+        removeShipBoxContent(selectedShipId);
         resetSelectedShip();
       });
     });
@@ -205,7 +245,8 @@ const PlaceShips = (() => {
 
   return {
     shipBoxSelector,
-    placeShip
+    placeShip,
+    updateGridHighlights
   };
 
 })();

@@ -43,12 +43,14 @@ const CombatSetup = (() => {
       removeHighlightFromAllButtons(); 
       buttons.xAxisBtn.classList.add('axis-highlight');
       activeAxis = 'x'; 
+      PlaceShips.updateGridHighlights();
     });
   
     buttons.yAxisBtn.addEventListener('click', () => {
       removeHighlightFromAllButtons(); 
       buttons.yAxisBtn.classList.add('axis-highlight'); 
       activeAxis = 'y';
+      PlaceShips.updateGridHighlights();
     });
 
     return buttonBox;
