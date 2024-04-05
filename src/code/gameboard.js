@@ -31,6 +31,25 @@ const Gameboard = () => {
     ships[ship.getID()] = ship;
   };
 
+  const shipPlaced = (shipId) => {
+    let placed = false;
+    let board = getBoard();
+    
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j] === shipId) { // Check if the cell contains the shipId
+          placed = true;
+          break; // Stop searching once shipId is found
+        }
+      }
+      if (placed) {
+        break; // Break the outer loop if shipId is found
+      }
+    }
+    
+    return placed;
+  };
+
   const isOccupied = (x, y) => {
     return board[x][y] !== 0;
   };
@@ -100,7 +119,8 @@ const Gameboard = () => {
     receiveAttack,
     allShipsAreSunk,
     resetBoard,
-    squareAttacked
+    squareAttacked,
+    shipPlaced
   };
 };
 
