@@ -1,5 +1,6 @@
 import helper from './helper';
 import PlaceShips from './placeShips';
+import Gameboard from '../code/gameboard';
 
 const CombatSetup = (() => {
   let activeAxis = 'x'; 
@@ -57,7 +58,7 @@ const CombatSetup = (() => {
   };
 
   const loadFleet = () => {
-    const fleetContainer = helper.create('dix', {
+    const fleetContainer = helper.create('div', {
       className: 'fleet-container',
     });
 
@@ -79,6 +80,13 @@ const CombatSetup = (() => {
     const buttonBox = helper.create('dic', { className: 'setup-bottom-btns' }); 
 
     buttonBox.append(buttons.resetBtn, buttons.confirmBtn); 
+
+    buttons.resetBtn.addEventListener('click', () => {
+      resetPage();
+      const playerBoard = PlaceShips.getPlayerBoard();
+      playerBoard.resetBoard();
+      loadFleet();
+    });
 
     return buttonBox; 
   };
@@ -105,6 +113,22 @@ const CombatSetup = (() => {
       id: 'confirm-btn',
       textContent: 'Confirm'
     }),
+  };
+
+  const resetPage = () => {
+    helper.resetGameboardGrid();
+    activeAxis = 'x'; 
+    const yAxisBtn = document.getElementById('yAxis-btn');
+    const xAxisBtn = document.getElementById('xAxis-btn');
+    yAxisBtn.classList.remove('axis-highlight');
+    xAxisBtn.classList.add('axis-highlight');
+
+    const shipBoxes = document.querySelectorAll('.ship-box');
+    shipBoxes.forEach(box => {
+      box.firstChild.classList.remove('ship-icon-placed');
+      box.lastChild.classList.remove('ship-text-placed');
+      box.classList.remove('ship-box-placed');
+    });
   };
 
   return {
