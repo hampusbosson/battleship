@@ -1,16 +1,17 @@
 import helper from './helper';
 import PlaceShips from './placeShips';
-import Gameboard from '../code/gameboard';
+import SetupModal from './setupModal';
 
 const CombatSetup = (() => {
-  let activeAxis = 'x'; 
+  let activeAxis = 'x';
 
   const getActiveAxis = () => activeAxis;
 
   const loadSetupContent = () => {
     helper.restorePage();
     const content = document.getElementById('content');
-    content.append(loadGameboard());    
+    content.append(SetupModal.loadSetupModal(), loadGameboard());
+    SetupModal.initTypingEffect();
 
     PlaceShips.shipBoxSelector();
     PlaceShips.placeShip();
@@ -22,7 +23,11 @@ const CombatSetup = (() => {
     });
     const setupBoard = helper.create('div', { className: 'setup-board' });
 
-    setupBoard.append(loadTopButtons(), helper.loadGridSquare(), loadBottomButtons());
+    setupBoard.append(
+      loadTopButtons(),
+      helper.loadGridSquare(),
+      loadBottomButtons(),
+    );
     setupContainer.append(setupBoard, loadFleet());
 
     return setupContainer;
@@ -39,17 +44,17 @@ const CombatSetup = (() => {
       buttons.xAxisBtn.classList.remove('axis-highlight');
       buttons.yAxisBtn.classList.remove('axis-highlight');
     };
-  
+
     buttons.xAxisBtn.addEventListener('click', () => {
-      removeHighlightFromAllButtons(); 
+      removeHighlightFromAllButtons();
       buttons.xAxisBtn.classList.add('axis-highlight');
-      activeAxis = 'x'; 
+      activeAxis = 'x';
       PlaceShips.updateGridHighlights();
     });
-  
+
     buttons.yAxisBtn.addEventListener('click', () => {
-      removeHighlightFromAllButtons(); 
-      buttons.yAxisBtn.classList.add('axis-highlight'); 
+      removeHighlightFromAllButtons();
+      buttons.yAxisBtn.classList.add('axis-highlight');
       activeAxis = 'y';
       PlaceShips.updateGridHighlights();
     });
@@ -67,8 +72,14 @@ const CombatSetup = (() => {
         className: 'ship-box',
         id: i,
       });
-      let shipText = helper.create('div', { textContent: helper.shipNames[i], className: 'ship-text'} );
-      let shipIcon = helper.create('img', { src: helper.shipIcons[i], className: 'ship-icon'} );
+      let shipText = helper.create('div', {
+        textContent: helper.shipNames[i],
+        className: 'ship-text',
+      });
+      let shipIcon = helper.create('img', {
+        src: helper.shipIcons[i],
+        className: 'ship-icon',
+      });
       shipBox.append(shipIcon, shipText);
       fleetContainer.appendChild(shipBox);
     }
@@ -77,9 +88,9 @@ const CombatSetup = (() => {
   };
 
   const loadBottomButtons = () => {
-    const buttonBox = helper.create('dic', { className: 'setup-bottom-btns' }); 
+    const buttonBox = helper.create('dic', { className: 'setup-bottom-btns' });
 
-    buttonBox.append(buttons.resetBtn, buttons.confirmBtn); 
+    buttonBox.append(buttons.resetBtn, buttons.confirmBtn);
 
     buttons.resetBtn.addEventListener('click', () => {
       resetPage();
@@ -88,9 +99,8 @@ const CombatSetup = (() => {
       loadFleet();
     });
 
-    return buttonBox; 
+    return buttonBox;
   };
-
 
   const buttons = {
     xAxisBtn: helper.create('button', {
@@ -106,25 +116,25 @@ const CombatSetup = (() => {
     resetBtn: helper.create('button', {
       className: 'setup-btn',
       id: 'reset-btn',
-      textContent: 'Reset'
+      textContent: 'Reset',
     }),
     confirmBtn: helper.create('button', {
       className: 'setup-btn',
       id: 'confirm-btn',
-      textContent: 'Confirm'
+      textContent: 'Confirm',
     }),
   };
 
   const resetPage = () => {
     helper.resetGameboardGrid();
-    activeAxis = 'x'; 
+    activeAxis = 'x';
     const yAxisBtn = document.getElementById('yAxis-btn');
     const xAxisBtn = document.getElementById('xAxis-btn');
     yAxisBtn.classList.remove('axis-highlight');
     xAxisBtn.classList.add('axis-highlight');
 
     const shipBoxes = document.querySelectorAll('.ship-box');
-    shipBoxes.forEach(box => {
+    shipBoxes.forEach((box) => {
       box.firstChild.classList.remove('ship-icon-placed');
       box.lastChild.classList.remove('ship-text-placed');
       box.classList.remove('ship-box-placed');
@@ -133,11 +143,8 @@ const CombatSetup = (() => {
 
   return {
     loadSetupContent,
-    getActiveAxis
+    getActiveAxis,
   };
 })();
 
 export default CombatSetup;
-
-
-
