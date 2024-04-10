@@ -2,6 +2,7 @@ import helper from './helper';
 import CombatSetup from './combatSetup';
 
 const pregame = (() => {
+  let username = '';
   const loadCard = () => {
     const content = document.getElementById('content');
 
@@ -28,6 +29,7 @@ const pregame = (() => {
     const textInput = helper.create('input', {
       type: 'text',
       className: 'name-input',
+      id: 'username',
       placeholder: 'Captain name...',
       minLength: 0, 
       maxLength: 15
@@ -40,6 +42,18 @@ const pregame = (() => {
     textBox.appendChild(textInput);
 
     return textBox;
+  };
+
+  const setUsername = () => {
+    let userInput = document.getElementById('username');
+    username = userInput.value;
+  };
+
+  const getUsername = () => {
+    let firstChar = username.charAt(0).toUpperCase()
+    let restOfName = username.slice(1);
+
+    return firstChar+restOfName;
   };
 
   const createStartButton = () => {
@@ -55,13 +69,17 @@ const pregame = (() => {
     });
 
     startButton.appendChild(text);
-    startButton.addEventListener('click', () => CombatSetup.loadSetupContent()); 
+    startButton.addEventListener('click', function() {
+      setUsername();
+      CombatSetup.loadSetupContent();
+    }); 
 
     return startButton;
   };
 
   return {
     loadCard,
+    getUsername
   };
 })();
 
