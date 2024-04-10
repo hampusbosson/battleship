@@ -94,6 +94,7 @@ p {
     background-color: rgb(67, 66, 66);
     border-radius: 10px; 
     cursor: pointer;
+    color: white;
 }
 
 /* board-setup page */
@@ -176,10 +177,17 @@ p {
     background-color: rgba(88, 110, 128, 0.562);
 }
 
+.grid-square-invalid:hover {
+    background-color: rgba(255, 0, 0, 0.399); 
+}
+
 .grid-highlight {
     background-color: rgba(88, 110, 128, 0.562);
-
 }
+
+.grid-highlight-invalid {
+    background-color: rgba(255, 0, 0, 0.399); 
+  }
 
 .setup-top-btns {
     width: 100%;
@@ -273,6 +281,10 @@ p {
     height: 2.5rem; 
 }
 
+.ship-icon-placed {
+    display: none;
+}
+
 .ship-text {
     color: gray; 
 }
@@ -294,13 +306,97 @@ p {
     background: transparent;
 }
 
-
-/* ship icons classes: */ 
-
 .ship {
     height: 100%;
     width: 100%;
-    
+}
+
+/* setup-modal: */
+
+/* The Modal (background) */
+.setup-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.621); /* Black w/ opacity */
+}
+  
+  /* Modal Content/Box */
+.setup-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000000;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 10px;
+    border: 1px solid #ffffff;
+    min-height: 5rem;
+    max-width: 33rem; 
+    border-radius: 15px;
+}
+
+.modal-message {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 4rem;
+}
+
+@keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+}
+  
+.typing-cursor {
+    border-right: 2px solid;
+    animation: blink 1s step-start 0s infinite;
+}
+
+#welcome-text {
+    padding-top: 0.3rem;
+    padding-right: 1.5rem;
+    font-size: 1.2rem;
+    font-family: 'roboto-regular';
+    color: white;
+    font-variant: underline;
+}
+
+.commander-icon {
+    width: 110px;
+}
+
+#close-modal-btn {
+    font-family: 'roboto-light';
+    margin-left: 25rem;
+    margin-top: -1rem;
+    width: 5.5rem;
+    height: 1.6rem;
+    padding: 0; 
+    background: none;
+    border: none;
+    border-radius: 5px;  
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.259);
+    color: rgb(189, 189, 189);
+    font-size: 1rem;
+}
+
+#close-modal-btn:hover {
+    background-color: rgb(109, 109, 109);
+    border-radius: 5px; 
+    cursor: pointer;
+    color: white;
 }
   
 
