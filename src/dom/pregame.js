@@ -1,8 +1,8 @@
 import helper from './helper';
 import CombatSetup from './combatSetup';
+const player = require('../code/player.js');
 
 const pregame = (() => {
-  let username = '';
   const loadCard = () => {
     const content = document.getElementById('content');
 
@@ -46,14 +46,7 @@ const pregame = (() => {
 
   const setUsername = () => {
     let userInput = document.getElementById('username');
-    username = userInput.value;
-  };
-
-  const getUsername = () => {
-    let firstChar = username.charAt(0).toUpperCase()
-    let restOfName = username.slice(1);
-
-    return firstChar+restOfName;
+    player.setPlayerName(userInput.value);
   };
 
   const createStartButton = () => {
@@ -78,8 +71,7 @@ const pregame = (() => {
   };
 
   return {
-    loadCard,
-    getUsername
+    loadCard
   };
 })();
 
