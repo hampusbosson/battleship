@@ -1,4 +1,16 @@
-const Player = (gameboard) => {
+const Player = ((gameboard) => {
+    let playerName; 
+
+    const setPlayerName = (name) => {
+        playerName = name;
+    };
+
+    const getPlayerName = () => {
+        let firstChar = playerName.charAt(0).toUpperCase();
+        let restOfName = playerName.slice(1);
+
+        return firstChar + restOfName; 
+    };
 
     const attack = (enemyBoard, x, y) => {
         enemyBoard.receiveAttack(x,y); 
@@ -16,8 +28,10 @@ const Player = (gameboard) => {
     };
 
     return {
+        setPlayerName,
+        getPlayerName,
         attack
     }; 
-};
+})();
 
 module.exports = Player; 
