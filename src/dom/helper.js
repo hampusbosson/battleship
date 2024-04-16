@@ -44,6 +44,10 @@ const helper = (() => {
     return gridContainer;
   };
 
+  const updateBoard = () => {
+
+  }
+
   const loadNumberSection = () => {
     const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
     const numbersContainer = create('div', { classList: 'numbers-container' } ); 
@@ -133,6 +137,18 @@ const resetGameboardGrid = () => {
   });
 };
 
+const activateConfirmBtn = () => {
+  const confirmBtn = document.querySelector('.confirm-btn');
+
+  confirmBtn.classList.add('confirm-btn-active');
+};
+
+const resetConfirmBtn = () => {
+  const confirmBtn = document.querySelector('.confirm-btn');
+
+  confirmBtn.classList.remove('confirm-btn-active');
+};
+
   return {
     create,
     restorePage,
@@ -142,6 +158,8 @@ const resetGameboardGrid = () => {
     placeShipIcon,
     resetGridSquares,
     resetGameboardGrid,
+    activateConfirmBtn,
+    resetConfirmBtn,
     shipIcons,
     shipNames,
     ships
