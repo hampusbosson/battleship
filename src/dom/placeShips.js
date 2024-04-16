@@ -7,6 +7,7 @@ const PlaceShips = (() => {
   let currentMouseOverHandlers = new Map();
   let currentMouseOutHandlers = new Map();
   let playerBoard = Gameboard();
+  let shipsPlaced = 0;
 
   const getPlayerBoard = () => {
     return playerBoard;
@@ -29,6 +30,14 @@ const PlaceShips = (() => {
     2: false,
     3: false,
     4: false,
+  };
+
+  const allShipsPlaced = () => {
+    return shipsPlaced === 5;
+  };
+
+  const resetShipsPlaced = () => {
+    shipsPlaced = 0; 
   };
 
   const resetSelectedShip = () => {
@@ -235,12 +244,18 @@ const PlaceShips = (() => {
         }
         
         playerBoard.placeShip(ship, xAxis, yAxis);
+        shipsPlaced += 1;
+        console.log(shipsPlaced);
         console.log(playerBoard.getBoard()); 
 
         helper.placeShipIcon(square, shipName, rotationAxis, shipLength);
 
         removeShipBoxContent(selectedShipId);
         resetSelectedShip();
+
+        if (allShipsPlaced()) {
+          helper.activateConfirmBtn();
+        }
       });
     });
   };
@@ -249,7 +264,9 @@ const PlaceShips = (() => {
     shipBoxSelector,
     placeShip,
     updateGridHighlights,
-    getPlayerBoard
+    getPlayerBoard,
+    allShipsPlaced,
+    resetShipsPlaced
   };
 
 })();

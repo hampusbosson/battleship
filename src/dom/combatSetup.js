@@ -1,6 +1,7 @@
 import helper from './helper';
 import PlaceShips from './placeShips';
 import SetupModal from './setupModal';
+import Combat from './combat';
 
 const CombatSetup = (() => {
   let activeAxis = 'x';
@@ -97,7 +98,16 @@ const CombatSetup = (() => {
       const playerBoard = PlaceShips.getPlayerBoard();
       playerBoard.resetBoard();
       loadFleet();
+      PlaceShips.resetShipsPlaced();
+      helper.resetConfirmBtn();
     });
+
+    buttons.confirmBtn.addEventListener('click', () => {
+      if (PlaceShips.allShipsPlaced()) {
+        Combat.loadCombatContent();
+      }
+    });
+    
 
     return buttonBox;
   };
@@ -119,8 +129,7 @@ const CombatSetup = (() => {
       textContent: 'Reset',
     }),
     confirmBtn: helper.create('button', {
-      className: 'setup-btn',
-      id: 'confirm-btn',
+      className: 'confirm-btn',
       textContent: 'Confirm',
     }),
   };
