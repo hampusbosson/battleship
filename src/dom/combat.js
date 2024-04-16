@@ -1,11 +1,13 @@
 import helper from './helper';
-
+import PlaceShips from './placeShips';
 const Combat = (() => {
   const loadCombatContent = () => {
     helper.restorePage();
     const content = document.getElementById('content');
 
     content.append(loadBattleCard());
+    console.log(PlaceShips.getPlayerBoard().getBoard());
+
   };
 
   const loadBattleCard = () => {
@@ -21,10 +23,10 @@ const Combat = (() => {
   const loadPlayerSide = () => {
     const playerSide = helper.create('section', { className: 'player-side' });
     const playerHeader = helper.create('div', { className: 'player-header', textContent: 'FRIENDLY WATERS'} );
-    const playerGrid = helper.loadGridSquare();
+    //const playerGrid = helper.loadGridSquare();
     playerSide.classList.add('player-side');
 
-    playerSide.append(playerHeader, playerGrid);
+    playerSide.append(playerHeader, PlaceShips.getClonedGrid());
     return playerSide;
   };
 

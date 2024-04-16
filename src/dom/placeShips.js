@@ -8,6 +8,7 @@ const PlaceShips = (() => {
   let currentMouseOutHandlers = new Map();
   let playerBoard = Gameboard();
   let shipsPlaced = 0;
+  var clonedGrid;
 
   const getPlayerBoard = () => {
     return playerBoard;
@@ -255,9 +256,15 @@ const PlaceShips = (() => {
 
         if (allShipsPlaced()) {
           helper.activateConfirmBtn();
+          var grid = document.querySelector('.setup-grid-container');
+          clonedGrid = grid.cloneNode(true);
         }
       });
     });
+  };
+
+  const getClonedGrid = () => {
+    return clonedGrid;
   };
 
   return {
@@ -266,7 +273,8 @@ const PlaceShips = (() => {
     updateGridHighlights,
     getPlayerBoard,
     allShipsPlaced,
-    resetShipsPlaced
+    resetShipsPlaced,
+    getClonedGrid
   };
 
 })();
