@@ -32,6 +32,7 @@ const Combat = (() => {
     const computerSide = helper.create('section', { className: 'computer-side' });
     const computerHeader = helper.create('div',  {className: 'computer-header', textContent: 'ENEMY WATERS' });
     const computerGrid = helper.loadGridSquare();
+    computerGrid.lastChild.classList.add('computer-grid');
     computerSide.classList.add('computer-side');
 
     computerSide.append(computerHeader, computerGrid);
