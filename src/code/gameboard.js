@@ -1,3 +1,5 @@
+import Ship from './ship';
+
 const Gameboard = () => {
   let board = Array(10)
     .fill()
@@ -64,12 +66,14 @@ const Gameboard = () => {
 
   const squareOccupied = (ship, x, y) => {
     if (ship.getAxis() === 'x') {
+      if (x + ship.getLength() > 10) return true;
       for (let i = 0; i < ship.getLength(); i++) {
         if (board[x + i][y] !== 0) {
           return true; // Square is occupied
         }
       }
     } else if (ship.getAxis() === 'y') {
+      if (y + ship.getLength() > 10) return true;
       for (let i = 0; i < ship.getLength(); i++) {
         if (board[x][y + i] !== 0) {
           return true; // Square is occupied
@@ -104,6 +108,41 @@ const Gameboard = () => {
     return Object.values(ships).every((ship) => ship.isSunk());
   };
 
+  const generateComputerShips = () => {
+    const ships = {
+      0: Ship(5, 0),
+      1: Ship(4, 1),
+      2: Ship(4, 2),
+      3: Ship(3, 3),
+      4: Ship(2, 4)
+    };
+
+    for (const key in ships) {
+      const ship = ships[key];
+      const randomNum = Math.floor(Math.random() * 2);
+      if (randomNum == 1) {
+        ship.rotateShip();
+      }
+    } 
+    return ships;
+  };
+
+  const placeComputerShips = () => {
+    const ships = generateComputerShips();
+    for (const key in ships) {
+        const ship = ships[key];
+        let randomX, randomY;
+
+        do {
+            randomX = Math.floor(Math.random() * (ship.getAxis() === 'x' ? 10 - ship.getLength() : 10));
+            randomY = Math.floor(Math.random() * (ship.getAxis() === 'y' ? 10 - ship.getLength() : 10));
+        } while (squareOccupied(ship, randomX, randomY));
+
+        placeShip(ship, randomX, randomY);
+    }
+};
+  
+ 
   const resetBoard = () => {
     board = Array(10)
       .fill()
@@ -120,8 +159,9 @@ const Gameboard = () => {
     allShipsAreSunk,
     resetBoard,
     squareAttacked,
-    shipPlaced
+    shipPlaced,
+    placeComputerShips
   };
 };
 
-module.exports = Gameboard;
+export default Gameboard;
