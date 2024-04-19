@@ -1,14 +1,19 @@
-const player = require('../code/player');
-const gameBoard = require('../code/gameboard');
+import Player from './player';
+import Gameboard from './gameboard';
 import PlaceShips from '../dom/placeShips';
 
 const Game = (() => {
     const playerBoard = PlaceShips.getPlayerBoard();
-    const computerBoard = gameBoard();
-    const newPlayer = player(playerBoard);
+    const computerBoard = Gameboard();
+    const newPlayer = Player(playerBoard);
 
     const gameOver = () => {
         return playerBoard.allShipsAreSunk() || computerBoard.allShipsAreSunk();
+    };
+
+    const initComputerBoard = () => {
+        computerBoard.placeComputerShips();
+        console.log(computerBoard.getBoard());
     };
 
     const gameWinner = () => {
@@ -32,7 +37,7 @@ const Game = (() => {
     };
 
 
-    return { playTurn, gameWinner, resetBoards };
+    return { playTurn, gameWinner, resetBoards, initComputerBoard };
 })();
 
 export default Game;
