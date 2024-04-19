@@ -1,5 +1,5 @@
 import helper from './helper';
-const player = require('../code/player.js');
+import pregame from './pregame';
 
 const SetupModal = (() => {
   const loadSetupModal = () => {
@@ -69,7 +69,7 @@ const SetupModal = (() => {
   };
 
   const initTypingEffect = () => {
-    const message = `Welcome Captain ${player.getPlayerName()}!`;
+    const message = `Welcome Captain ${pregame.getPlayerName()}!`;
     const secondMessage =
       'Plan our formation by selecting the axis and ship and drop it on the map.';
 
