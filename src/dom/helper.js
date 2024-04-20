@@ -44,10 +44,6 @@ const helper = (() => {
     return gridContainer;
   };
 
-  const updateBoard = () => {
-
-  }
-
   const loadNumberSection = () => {
     const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
     const numbersContainer = create('div', { classList: 'numbers-container' } ); 
