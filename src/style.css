@@ -131,7 +131,10 @@ p {
     grid-column: 2 / span 2; /* Spans from the second to the third column */
     grid-row: 2; /* Second row */
     background-color: rgba(173, 216, 230, 0.123);
+}
 
+.setup-grid:hover {
+    cursor: crosshair;
 }
 
 .letters-container {
@@ -167,15 +170,19 @@ p {
 }
 
 .grid-square {
+    position: relative; 
     height: 3rem;
     width: 3rem;
     background-color: rgba(88, 110, 128, 0.267);
-    border: 1px solid rgba(170, 170, 170, 0.503);    
+    border: 1px solid rgba(170, 170, 170, 0.503);   
+    margin: 0;
+    padding: 0; 
 }
 
 .grid-square:hover {
     background-color: rgba(88, 110, 128, 0.562);
 }
+
 
 .grid-square-invalid:hover {
     background-color: rgba(255, 0, 0, 0.399); 
@@ -422,9 +429,9 @@ p {
     justify-content: center;
     gap: 5rem;
     background-color: rgba(0, 0, 0, 0.75);
-    width: 87%;
-    height: 95%; 
-    border-radius: 15px; 
+    min-width: 78rem;
+    height: 43rem; 
+    border-radius: 20px; 
 }
 
 .player-side, .computer-side {
@@ -437,7 +444,7 @@ p {
 .computer-grid {
     position: relative;
     overflow: hidden;
-    background-image: radial-gradient(circle, rgba(243, 100, 64, 0.27) 60%, rgb(243, 118, 64) 200%);
+    background-color: rgba(255, 0, 0, 0.287);
 }
 
 .player-header, .computer-header {
@@ -455,6 +462,23 @@ p {
 
 .computer-header {
     color:#f3a640;
+}
+
+.attacked-square::after {
+    content: "";
+    position: absolute;
+    width: 18px; /* Size of the circle */
+    height: 18px; /* Size of the circle */
+    background-color: lightblue;
+    border-radius: 50%; /* Makes the shape a circle */
+    /* Center the circle */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.attacked-square:hover {
+    cursor: default;
 }
 
 
