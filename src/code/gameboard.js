@@ -83,8 +83,20 @@ const Gameboard = () => {
     return false; // No squares are occupied
   };
 
+  const squareContainsShip = (x, y) => {
+    return board[x][y] !== 'x' && board[x][y] !== 0;
+  };
+
   const squareAttacked = (x, y) => {
-    return (board[x][y] === 'x'); 
+    return (board[x][y] === 'hit'); 
+  };
+
+  const missedAttack = (x, y) => {
+    return (board[x][y] === 'x');
+  };
+
+  const isEmptyField = (x, y) => {
+    return board[x][y] !== 'x' && board[x][y] !== 'hit'; 
   };
 
   const receiveAttack = (x, y) => {
@@ -95,13 +107,14 @@ const Gameboard = () => {
 
     if (board[x][y] === 0) {
       board[x][y] = 'x'; // Mark as missed attack
-      return;
+      return false;
     }
     // Assuming board[x][y] contains a ship ID for a hit
     const shipID = board[x][y];
     const ship = getShipByID(shipID);
     ship.hit();
-    board[x][y] = 'x'; // Mark as attacked
+    board[x][y] = 'hit'; // Mark as attacked
+    return true; 
   };
 
   const allShipsAreSunk = () => {
@@ -154,13 +167,16 @@ const Gameboard = () => {
   return {
     placeShip,
     isOccupied,
+    isEmptyField,
     getBoard,
     receiveAttack,
     allShipsAreSunk,
     resetBoard,
     squareAttacked,
+    missedAttack,
     shipPlaced,
-    placeComputerShips
+    placeComputerShips,
+    squareContainsShip
   };
 };
 

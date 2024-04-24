@@ -3,41 +3,56 @@ import Gameboard from './gameboard';
 import PlaceShips from '../dom/placeShips';
 
 const Game = (() => {
-    const playerBoard = PlaceShips.getPlayerBoard();
-    const computerBoard = Gameboard();
-    const newPlayer = Player(playerBoard);
+  const playerBoard = PlaceShips.getPlayerBoard();
+  const computerBoard = Gameboard();
+  const newPlayer = Player(playerBoard);
 
-    const gameOver = () => {
-        return playerBoard.allShipsAreSunk() || computerBoard.allShipsAreSunk();
-    };
+  const gameOver = () => {
+    return playerBoard.allShipsAreSunk() || computerBoard.allShipsAreSunk();
+  };
 
-    const initComputerBoard = () => {
-        computerBoard.placeComputerShips();
-        console.log(computerBoard.getBoard());
-    };
+  const getPlayerBoard = () => {
+    return playerBoard;
+  };
 
-    const gameWinner = () => {
-        if (playerBoard.allShipsAreSunk()) {
-            return 'player';
-        } else if (computerBoard.allShipsAreSunk()) {
-            return 'computer';
-        }
-    };
+  const getComputerBoard = () => {
+    return computerBoard;
+  };
 
-    const playTurn = (x, y) => {
-        if (!gameOver()) {
-            newPlayer.attack(computerBoard, x, y);
-            newPlayer.computerAttack(playerBoard);
-        } 
-    };
+  const initComputerBoard = () => {
+    computerBoard.placeComputerShips();
+    console.log(computerBoard.getBoard());
+  };
 
-    const resetBoards = () => {
-        playerBoard.resetBoard();
-        computerBoard.resetBoard();
-    };
+  const gameWinner = () => {
+    if (playerBoard.allShipsAreSunk()) {
+      return 'computer';
+    } else if (computerBoard.allShipsAreSunk()) {
+      return 'player';
+    }
+  };
 
+  const playTurn = (x, y) => {
+    if (!gameOver()) {
+      newPlayer.attack(computerBoard, x, y);
+    } else {
+      console.log(`Game over! Winner is ${gameWinner()}`);
+    }
+  };
 
-    return { playTurn, gameWinner, resetBoards, initComputerBoard };
+  const resetBoards = () => {
+    playerBoard.resetBoard();
+    computerBoard.resetBoard();
+  };
+
+  return {
+    playTurn,
+    gameWinner,
+    resetBoards,
+    initComputerBoard,
+    getPlayerBoard,
+    getComputerBoard
+  };
 })();
 
 export default Game;
