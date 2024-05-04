@@ -39,4 +39,4 @@ const Ship = (length, id) => {
   return { getLength, getAxis, getID, getHits, hit, isSunk, rotateShip };
 };
 
-module.exports = Ship;
+export default Ship;
