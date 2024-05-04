@@ -263,7 +263,7 @@ const PlaceShips = (() => {
     });
   };
 
-  const getClonedGrid = () => {
+    const getClonedGrid = () => {
     return clonedGrid;
   };
 
