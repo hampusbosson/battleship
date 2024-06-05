@@ -1,7 +1,6 @@
 import helper from './helper';
 import PlaceShips from './placeShips';
 import Game from '../code/game';
-import Ship from '../code/ship';
 
 const Combat = (() => {
   const getPlayerGrid = () => { return PlaceShips.getClonedGrid(); };
@@ -18,7 +17,9 @@ const Combat = (() => {
     const computerSquares = compGrid.querySelectorAll('.grid-square');
     computerSquares.forEach(square => {
       square.addEventListener('click', () => {
-        attackSquare(square);
+        if (!square.classList.contains('missed-square') && !square.classList.contains('attacked-square')) {
+          attackSquare(square);
+        }
       });
     });
 
@@ -113,7 +114,6 @@ const Combat = (() => {
         }
         let computerGrid = document.getElementById('computer-grid');
   
-        // Directly passing the startSquare to placeShipIcon
         helper.placeShipIcon(computerGrid, startSquare, shipName, shipAxis, shipLength);
       }
     });
