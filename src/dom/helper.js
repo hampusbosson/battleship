@@ -68,6 +68,21 @@ const helper = (() => {
     return lettersContainer; 
   }; 
 
+  const loadCommanderIcon = () => {
+    const iconPath = '../assets/icons/commander.png';
+    const iconContainer = helper.create('div', {
+      className: 'commander-icon-box',
+    });
+    const commanderIcon = helper.create('img', {
+      src: iconPath,
+      className: 'commander-icon',
+    });
+
+    iconContainer.appendChild(commanderIcon);
+
+    return iconContainer;
+  };
+
   const shipIcons = [
     '../assets/icons/carrier.svg',
     '../assets/icons/battleship.svg',
@@ -151,17 +166,40 @@ const resetConfirmBtn = () => {
   confirmBtn.classList.remove('confirm-btn-active');
 };
 
+const typeWriter = (text, elementId, typingSpeed, callback) => {
+  let i = 0;
+  const element = document.getElementById(elementId);
+  element.classList.add('typing-cursor');
+
+  const typing = () => {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing, typingSpeed);
+    } else {
+      element.classList.remove('typing-cursor');
+      if (typeof callback === 'function') {
+        callback();
+      }
+    }
+  };
+
+  typing();
+};
+
   return {
     create,
     restorePage,
     loadGridSquare,
     loadLetterSection,
     loadNumberSection,
+    loadCommanderIcon,
     placeShipIcon,
     resetGridSquares,
     resetGameboardGrid,
     activateConfirmBtn,
     resetConfirmBtn,
+    typeWriter,
     shipIcons,
     shipNames,
     ships
