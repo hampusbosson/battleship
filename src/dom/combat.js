@@ -1,6 +1,7 @@
 import helper from './helper';
 import PlaceShips from './placeShips';
 import Game from '../code/game';
+import Ship from '../code/ship';
 
 const Combat = (() => {
   const getPlayerGrid = () => { return PlaceShips.getClonedGrid(); };
@@ -38,7 +39,7 @@ const Combat = (() => {
     const playerHeader = helper.create('div', { className: 'player-header', textContent: 'FRIENDLY WATERS'} );
     playerSide.classList.add('player-side');
 
-    playerSide.append(playerHeader, getPlayerGrid());/*helper.loadGridSquare())*/
+    playerSide.append(playerHeader, getPlayerGrid());
     return playerSide;
   };
 
@@ -56,11 +57,23 @@ const Combat = (() => {
   };
 
   const attackSquare = (square) => {
-    square.classList.add('attacked-square');
     let xAxis = parseInt(square.id.charAt(0), 10);
     let yAxis = parseInt(square.id.charAt(1), 10);
-
+    const computerBoard = Game.getComputerBoard();
+  
+    // Play the turn before checking the results
     Game.playTurn(xAxis, yAxis);
+    console.log(computerBoard.getBoard());
+  
+    // Now check if the attack was a hit or miss
+    if (computerBoard.squareAttacked(xAxis, yAxis)) {
+      square.classList.add('attacked-square');
+      displaySunkenEnemyShips(computerBoard);
+    }
+    if (computerBoard.missedAttack(xAxis, yAxis)) {
+      square.classList.add('missed-square');
+    }
+  
     displayComputerAttack();
   };
 
@@ -68,6 +81,8 @@ const Combat = (() => {
     const playerGrid = getPlayerGrid();
     const playerSquares = playerGrid.querySelectorAll('.grid-square');
     const playerBoard = Game.getPlayerBoard();
+
+    console.log(playerBoard.getBoard());
     
     playerSquares.forEach(square => {
       let xAxis = parseInt(square.id.charAt(0), 10);
@@ -76,9 +91,34 @@ const Combat = (() => {
       if(playerBoard.squareAttacked(xAxis, yAxis)) {
         square.classList.add('attacked-square');
       }
+      if(playerBoard.missedAttack(xAxis, yAxis)) {
+        square.classList.add('missed-square');
+      }
     });
   };
 
+  
+  const displaySunkenEnemyShips = (enemyBoard) => {
+    let enemyShips = enemyBoard.getShips();
+    Object.values(enemyShips).forEach(ship => {
+      if (ship.isSunk()) {
+        let startSquare = ship.getStartSquare();
+        let shipName = helper.ships[ship.getID() - 1].name;
+        let shipLength = helper.ships[ship.getID() - 1].length;
+        let shipAxis = ship.getAxis();
+        if (shipAxis === 'x') {
+          shipAxis = 'y';
+        } else if (shipAxis === 'y') {
+          shipAxis = 'x';
+        }
+        let computerGrid = document.getElementById('computer-grid');
+  
+        // Directly passing the startSquare to placeShipIcon
+        helper.placeShipIcon(computerGrid, startSquare, shipName, shipAxis, shipLength);
+      }
+    });
+  };
+  
 
 
   return { loadCombatContent };

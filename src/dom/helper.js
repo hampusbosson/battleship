@@ -100,7 +100,8 @@ const resetGridSquares = () => {
   });
 };
 
-const placeShipIcon = (startSquare, shipType, axis, shipLength) => {
+const placeShipIcon = (parentContainer, startSquare, shipType, axis, shipLength) => {
+  console.log(startSquare);
   const shipContainer = create('div', {id: 'ship-container'});
   shipContainer.classList.add(`${shipType}-${axis}`);
 
@@ -119,8 +120,13 @@ const placeShipIcon = (startSquare, shipType, axis, shipLength) => {
   shipContainer.style.position = 'absolute'; 
   shipContainer.style.zIndex = '-1';
 
-  let square = document.getElementById(`${startSquare.id}`);
-  square.prepend(shipContainer);
+  let squareSelector = `#${CSS.escape(startSquare.id)}`;
+  let square = parentContainer.querySelector(squareSelector);
+  if (square) {
+    square.prepend(shipContainer);
+  } else {
+    console.error(`Square with selector ${squareSelector} not found.`);
+  }
 };
 
 const resetGameboardGrid = () => {

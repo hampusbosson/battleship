@@ -217,6 +217,7 @@ const PlaceShips = (() => {
   };
 
   const placeShip = () => {
+    const board = document.getElementById('setup-grid');
     const gridSquares = document.querySelectorAll('.grid-square');
     gridSquares.forEach((square) => {
       square.addEventListener('click', () => {
@@ -249,7 +250,7 @@ const PlaceShips = (() => {
         console.log(shipsPlaced);
         console.log(playerBoard.getBoard()); 
 
-        helper.placeShipIcon(square, shipName, rotationAxis, shipLength);
+        helper.placeShipIcon(board, square, shipName, rotationAxis, shipLength);
 
         removeShipBoxContent(selectedShipId);
         resetSelectedShip();
