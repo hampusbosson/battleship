@@ -20,25 +20,10 @@ const SetupModal = (() => {
       className: 'setup-modal-content',
     });
     const msgBox = helper.create('div', { className: 'modal-message' });
-    msgBox.append(loadCommanderIcon(), loadText());
+    msgBox.append(helper.loadCommanderIcon(), loadText());
     modalContent.appendChild(msgBox);
 
     return modalContent;
-  };
-
-  const loadCommanderIcon = () => {
-    const iconPath = '../assets/icons/commander.png';
-    const iconContainer = helper.create('div', {
-      className: 'commander-icon-box',
-    });
-    const commanderIcon = helper.create('img', {
-      src: iconPath,
-      className: 'commander-icon',
-    });
-
-    iconContainer.appendChild(commanderIcon);
-
-    return iconContainer;
   };
 
   const loadText = () => {
@@ -47,28 +32,7 @@ const SetupModal = (() => {
     return text;
   };
 
-  const typeWriter = (text, elementId, typingSpeed, callback) => {
-    let i = 0;
-    const element = document.getElementById(elementId);
-    element.classList.add('typing-cursor');
-
-    const typing = () => {
-      if (i < text.length) {
-        element.innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typing, typingSpeed);
-      } else {
-        element.classList.remove('typing-cursor');
-        if (typeof callback === 'function') {
-          callback();
-        }
-      }
-    };
-
-    typing();
-  };
-
-  const initTypingEffect = () => {
+  const initTypingEffectSetup = () => {
     const message = `Welcome Captain ${pregame.getPlayerName()}!`;
     const secondMessage =
       'Plan our formation by selecting the axis and ship and drop it on the map.';
@@ -88,18 +52,18 @@ const SetupModal = (() => {
       }, 800);
     };
 
-    typeWriter(message, 'welcome-text', 30, () => {
+    helper.typeWriter(message, 'welcome-text', 30, () => {
       setTimeout(() => {
         let text = document.getElementById('welcome-text');
         text.innerHTML = '';
-        typeWriter(secondMessage, 'welcome-text', 20, addCloseButton);
+        helper.typeWriter(secondMessage, 'welcome-text', 20, addCloseButton);
       }, 1000);
     });
   };
 
   return {
     loadSetupModal,
-    initTypingEffect,
+    initTypingEffectSetup,
   };
 })();
 
