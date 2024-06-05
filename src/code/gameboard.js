@@ -8,6 +8,8 @@ const Gameboard = () => {
 
   const getBoard = () => board;
 
+  const getShips = () => ships;
+
   const getShipByID = (id) => {
     return ships[id];
   };
@@ -31,15 +33,20 @@ const Gameboard = () => {
         }
     }
     ships[ship.getID()] = ship;
+    
+    const square = document.getElementById(`${x}${y}`);
+    console.log(square);
+    ship.setStartSquare(square);
   };
 
   const shipPlaced = (shipId) => {
     let placed = false;
     let board = getBoard();
-    
+
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
-        if (board[i][j] === shipId) { // Check if the cell contains the shipId
+        if (board[i][j] === shipId) {
+          // Check if the cell contains the shipId
           placed = true;
           break; // Stop searching once shipId is found
         }
@@ -48,7 +55,7 @@ const Gameboard = () => {
         break; // Break the outer loop if shipId is found
       }
     }
-    
+
     return placed;
   };
 
@@ -88,15 +95,15 @@ const Gameboard = () => {
   };
 
   const squareAttacked = (x, y) => {
-    return (board[x][y] === 'hit'); 
+    return board[x][y] === 'hit';
   };
 
   const missedAttack = (x, y) => {
-    return (board[x][y] === 'x');
+    return board[x][y] === 'x';
   };
 
   const isEmptyField = (x, y) => {
-    return board[x][y] !== 'x' && board[x][y] !== 'hit'; 
+    return board[x][y] !== 'x' && board[x][y] !== 'hit';
   };
 
   const receiveAttack = (x, y) => {
@@ -114,7 +121,7 @@ const Gameboard = () => {
     const ship = getShipByID(shipID);
     ship.hit();
     board[x][y] = 'hit'; // Mark as attacked
-    return true; 
+    return true;
   };
 
   const allShipsAreSunk = () => {
@@ -127,7 +134,7 @@ const Gameboard = () => {
       1: Ship(4, 1),
       2: Ship(4, 2),
       3: Ship(3, 3),
-      4: Ship(2, 4)
+      4: Ship(2, 4),
     };
 
     for (const key in ships) {
@@ -136,26 +143,29 @@ const Gameboard = () => {
       if (randomNum == 1) {
         ship.rotateShip();
       }
-    } 
+    }
     return ships;
   };
 
   const placeComputerShips = () => {
     const ships = generateComputerShips();
     for (const key in ships) {
-        const ship = ships[key];
-        let randomX, randomY;
+      const ship = ships[key];
+      let randomX, randomY;
 
-        do {
-            randomX = Math.floor(Math.random() * (ship.getAxis() === 'x' ? 10 - ship.getLength() : 10));
-            randomY = Math.floor(Math.random() * (ship.getAxis() === 'y' ? 10 - ship.getLength() : 10));
-        } while (squareOccupied(ship, randomX, randomY));
+      do {
+        randomX = Math.floor(
+          Math.random() * (ship.getAxis() === 'x' ? 10 - ship.getLength() : 10),
+        );
+        randomY = Math.floor(
+          Math.random() * (ship.getAxis() === 'y' ? 10 - ship.getLength() : 10),
+        );
+      } while (squareOccupied(ship, randomX, randomY));
 
-        placeShip(ship, randomX, randomY);
+      placeShip(ship, randomX, randomY);
     }
-};
-  
- 
+  };
+
   const resetBoard = () => {
     board = Array(10)
       .fill()
@@ -169,6 +179,7 @@ const Gameboard = () => {
     isOccupied,
     isEmptyField,
     getBoard,
+    getShips,
     receiveAttack,
     allShipsAreSunk,
     resetBoard,
@@ -176,7 +187,7 @@ const Gameboard = () => {
     missedAttack,
     shipPlaced,
     placeComputerShips,
-    squareContainsShip
+    squareContainsShip,
   };
 };
 

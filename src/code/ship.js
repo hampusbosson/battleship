@@ -9,6 +9,7 @@ const Ship = (length, id) => {
     sunk: false,
     axis: 'y',
     id: id + 1,
+    startSquare: 0
   };
 
   const getLength = () => ship.length;
@@ -36,7 +37,15 @@ const Ship = (length, id) => {
     return ship.sunk;
   };
 
-  return { getLength, getAxis, getID, getHits, hit, isSunk, rotateShip };
+  const setStartSquare = (startSquare) => {
+    ship.startSquare = startSquare;
+  };
+
+  const getStartSquare = () => {
+    return ship.startSquare;
+  };
+
+  return { getLength, getAxis, getID, getHits, hit, isSunk, rotateShip, setStartSquare, getStartSquare };
 };
 
 export default Ship;
