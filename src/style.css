@@ -226,7 +226,7 @@ p {
     font-family: 'roboto-light';
 }
 
-.setup-btn:hover, .ship-box:hover {
+.setup-btn:hover, .ship-box:hover, #close-winner-modal-btn:hover {
     transform: scale(1.03);
     cursor: pointer;
 }
@@ -338,7 +338,7 @@ p {
 }
 
 /* setup-modal: */
-.setup-modal {
+.setup-modal, .winner-modal {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -369,10 +369,65 @@ p {
 }
 
 .modal-message {
+    min-width: 30rem;
     display: flex;
+    gap: 1rem;
+}
+
+.winner-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000000d1;
+    margin: 15% auto; /* 15% from the top and centered */
+    border: 1px solid #ffffff;
+    min-height: 22rem;
+    min-width: 35rem; 
+    border-radius: 15px;
+    padding-top: 30px;
+}
+
+
+.winner-modal-message {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
-    height: 4rem;
+}
+
+
+#close-winner-modal-btn {
+    height: 3rem;
+    width: 13rem; 
+    background: none;
+    border: none; 
+    outline: none;
+    color: rgb(255, 255, 255);
+    font-size: 1.3rem;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+.winner-message {
+    color: rgb(255, 255, 255);
+    font-size: 2.2rem;
+    font-family: 'roboto-medium';
+    font-style: italic;
+}
+
+#winner-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    font-size: 1.2rem;
+    max-width: 30rem;
+    text-align: center; /* Center-align the text */
+    margin: 0 auto; /* Optional: Center the container itself */
+    font-family: 'roboto-light';
 }
 
 @keyframes blink {
@@ -393,6 +448,7 @@ p {
     font-family: 'roboto-regular';
     color: white;
     font-variant: underline;
+    height: 22px;
 }
 
 .commander-icon {
@@ -402,7 +458,7 @@ p {
 #close-modal-btn {
     font-family: 'roboto-light';
     margin-left: 25rem;
-    margin-top: -1rem;
+    margin-top: -1.7rem;
     width: 5.5rem;
     height: 1.6rem;
     padding: 0; 
@@ -464,7 +520,7 @@ p {
     color:#f3a640;
 }
 
-.attacked-square::after {
+.missed-square::after {
     content: "";
     position: absolute;
     width: 18px; /* Size of the circle */
@@ -477,7 +533,20 @@ p {
     transform: translate(-50%, -50%);
 }
 
-.attacked-square:hover {
+.attacked-square::after {
+    content: "";
+    position: absolute;
+    width: 18px; /* Size of the circle */
+    height: 18px; /* Size of the circle */
+    background-color: red;
+    border-radius: 50%; /* Makes the shape a circle */
+    /* Center the circle */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.missed-square:hover, .attacked-square:hover {
     cursor: default;
 }
 
