@@ -26,9 +26,9 @@ const Game = (() => {
 
   const gameWinner = () => {
     if (playerBoard.allShipsAreSunk()) {
-      return 'computer';
+      return 'COMPUTER';
     } else if (computerBoard.allShipsAreSunk()) {
-      return 'player';
+      return 'PLAYER';
     }
   };
 
@@ -51,7 +51,8 @@ const Game = (() => {
     resetBoards,
     initComputerBoard,
     getPlayerBoard,
-    getComputerBoard
+    getComputerBoard,
+    gameOver,
   };
 })();
 

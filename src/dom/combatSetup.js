@@ -12,7 +12,7 @@ const CombatSetup = (() => {
     helper.restorePage();
     const content = document.getElementById('content');
     content.append(SetupModal.loadSetupModal(), loadGameboard());
-    SetupModal.initTypingEffect();
+    SetupModal.initTypingEffectSetup();
 
     PlaceShips.shipBoxSelector();
     PlaceShips.placeShip();
@@ -107,7 +107,6 @@ const CombatSetup = (() => {
         Combat.loadCombatContent();
       }
     });
-    
 
     return buttonBox;
   };
