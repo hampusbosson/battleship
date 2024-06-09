@@ -1,9 +1,20 @@
 import commanderIconPath from '../assets/icons/commander.png';
-import carrierIconPath from '../assets/icons/carrier.svg';
-import battleshipIconPath from '../assets/icons/battleship.svg';
-import cruiserIconPath from '../assets/icons/cruiser.svg';
-import submarineIconPath from '../assets/icons/submarine.svg';
-import destroyerIconPath from '../assets/icons/destroyer.svg';
+import carrierXIcon from '../assets/icons/carrier-x.svg';
+import carrierYIcon from '../assets/icons/carrier-y.svg';
+import battleshipXIcon from '../assets/icons/battleship-x.svg';
+import battleshipYIcon from '../assets/icons/battleship-y.svg';
+import cruiserXIcon from '../assets/icons/cruiser-x.svg';
+import cruiserYIcon from '../assets/icons/cruiser-y.svg';
+import submarineXIcon from '../assets/icons/submarine-x.svg';
+import submarineYIcon from '../assets/icons/submarine-y.svg';
+import destroyerXIcon from '../assets/icons/destroyer-x.svg';
+import destroyerYIcon from '../assets/icons/destroyer-y.svg';
+import carrierIcon from '../assets/icons/carrier-x.svg';
+import battleshipIcon from '../assets/icons/battleship.svg';
+import cruiserIcon from '../assets/icons/cruiser.svg';
+import submarineIcon from '../assets/icons/submarine.svg';
+import destroyerIcon from '../assets/icons/destroyer.svg';
+
 
 const helper = (() => {
   const restorePage = () => {
@@ -96,13 +107,36 @@ const helper = (() => {
     return iconContainer;
   };
 
-  const shipIcons = [
-    carrierIconPath,
-    battleshipIconPath,
-    cruiserIconPath,
-    submarineIconPath,
-    destroyerIconPath,
-  ];
+  const shipIconsByAxis = {
+    Carrier: {
+      x: carrierXIcon,
+      y: carrierYIcon,
+    },
+    Battleship: {
+      x: battleshipXIcon,
+      y: battleshipYIcon,
+    },
+    Cruiser: {
+      x: cruiserXIcon,
+      y: cruiserYIcon,
+    },
+    Submarine: {
+      x: submarineXIcon,
+      y: submarineYIcon,
+    },
+    Destroyer: {
+      x: destroyerXIcon,
+      y: destroyerYIcon,
+    },
+  };
+
+  const shipIcons = {
+    0: carrierIcon,
+    1: battleshipIcon,
+    2: cruiserIcon,
+    3: submarineIcon,
+    4: destroyerIcon
+  };
 
   const shipNames = [
     'Carrier (5f)',
@@ -128,40 +162,45 @@ const helper = (() => {
     });
   };
 
-  const placeShipIcon = (
-    parentContainer,
-    startSquare,
-    shipType,
-    axis,
-    shipLength,
-  ) => {
-    console.log(startSquare);
-    const shipContainer = create('div', { id: 'ship-container' });
-    shipContainer.classList.add(`${shipType}-${axis}`);
+const placeShipIcon = (
+  parentContainer,
+  startSquare,
+  shipType,
+  axis,
+  shipLength
+) => {
+  console.log(startSquare);
+  const shipContainer = create('div', { id: 'ship-container' });
+  shipContainer.classList.add(`${shipType}-${axis}`);
 
-    if (axis === 'y') {
-      shipContainer.style.height = `${shipLength * 3}rem`;
-      shipContainer.style.width = '3rem';
-    } else {
-      shipContainer.style.width = `${shipLength * 3}rem`;
-      shipContainer.style.height = '3rem';
-    }
+  if (axis === 'y') {
+    shipContainer.style.height = `${shipLength * 3}rem`;
+    shipContainer.style.width = '3rem';
+  } else {
+    shipContainer.style.width = `${shipLength * 3}rem`;
+    shipContainer.style.height = '3rem';
+  }
 
-    let iconURL = `../assets/icons/${shipType}-${axis}.svg`;
-    let icon = create('img', { src: iconURL, className: 'ship' });
-    shipContainer.appendChild(icon);
+  const iconURL = shipIconsByAxis[shipType][axis];
+  if (!iconURL) {
+    console.error('Unknown ship type or axis');
+    return;
+  }
 
-    shipContainer.style.position = 'absolute';
-    shipContainer.style.zIndex = '-1';
+  const icon = create('img', { src: iconURL, className: 'ship' });
+  shipContainer.appendChild(icon);
 
-    let squareSelector = `#${CSS.escape(startSquare.id)}`;
-    let square = parentContainer.querySelector(squareSelector);
-    if (square) {
-      square.prepend(shipContainer);
-    } else {
-      console.error(`Square with selector ${squareSelector} not found.`);
-    }
-  };
+  shipContainer.style.position = 'absolute';
+  shipContainer.style.zIndex = '-1';
+
+  const squareSelector = `#${CSS.escape(startSquare.id)}`;
+  const square = parentContainer.querySelector(squareSelector);
+  if (square) {
+    square.prepend(shipContainer);
+  } else {
+    console.error(`Square with selector ${squareSelector} not found.`);
+  }
+};
 
   const resetGameboardGrid = () => {
     const gridSquares = document.querySelectorAll('.grid-square');
