@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); 
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -32,7 +33,14 @@ module.exports = {
     new HtmlWebpackPlugin({
         template: './src/index.html',
         filename: 'index.html',
-        inject: 'body'
+        inject: 'body',
+        favicon: './src/assets/icons/battleship.png'
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./src/assets/icons", to: "icons" },
+        { from: "./src/assets/fonts", to: "fonts" },
+      ],
     }),
   ],
 };
