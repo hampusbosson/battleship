@@ -1,3 +1,10 @@
+import commanderIconPath from '../assets/icons/commander.png';
+import carrierIconPath from '../assets/icons/carrier.svg';
+import battleshipIconPath from '../assets/icons/battleship.svg';
+import cruiserIconPath from '../assets/icons/cruiser.svg';
+import submarineIconPath from '../assets/icons/submarine.svg';
+import destroyerIconPath from '../assets/icons/destroyer.svg';
+
 const helper = (() => {
   const restorePage = () => {
     const content = document.getElementById('content');
@@ -25,11 +32,11 @@ const helper = (() => {
   };
 
   const loadGridSquare = () => {
-    const gridContainer = helper.create('div', {
+    const gridContainer = create('div', {
       className: 'setup-grid-container',
       position: 'relative',
     });
-    const gridSquare = helper.create('div', {
+    const gridSquare = create('div', {
       className: 'setup-grid',
       id: 'setup-grid',
       position: 'absolute',
@@ -38,7 +45,7 @@ const helper = (() => {
 
     loadGrid().forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
-        let square = helper.create('div', {
+        let square = create('div', {
           className: 'grid-square',
           id: `${rowIndex}${columnIndex}`,
         });
@@ -76,12 +83,11 @@ const helper = (() => {
   };
 
   const loadCommanderIcon = () => {
-    const iconPath = '../assets/icons/commander.png';
-    const iconContainer = helper.create('div', {
+    const iconContainer = create('div', {
       className: 'commander-icon-box',
     });
-    const commanderIcon = helper.create('img', {
-      src: iconPath,
+    const commanderIcon = create('img', {
+      src: commanderIconPath,
       className: 'commander-icon',
     });
 
@@ -91,11 +97,11 @@ const helper = (() => {
   };
 
   const shipIcons = [
-    '../assets/icons/carrier.svg',
-    '../assets/icons/battleship.svg',
-    '../assets/icons/cruiser.svg',
-    '../assets/icons/submarine.svg',
-    '../assets/icons/destroyer.svg',
+    carrierIconPath,
+    battleshipIconPath,
+    cruiserIconPath,
+    submarineIconPath,
+    destroyerIconPath,
   ];
 
   const shipNames = [
@@ -141,7 +147,28 @@ const helper = (() => {
       shipContainer.style.height = '3rem';
     }
 
-    let iconURL = `../assets/icons/${shipType}-${axis}.svg`;
+    let iconURL;
+    switch (shipType) {
+      case 'Carrier':
+        iconURL = carrierIconPath;
+        break;
+      case 'Battleship':
+        iconURL = battleshipIconPath;
+        break;
+      case 'Cruiser':
+        iconURL = cruiserIconPath;
+        break;
+      case 'Submarine':
+        iconURL = submarineIconPath;
+        break;
+      case 'Destroyer':
+        iconURL = destroyerIconPath;
+        break;
+      default:
+        console.error('Unknown ship type');
+        return;
+    }
+
     let icon = create('img', { src: iconURL, className: 'ship' });
     shipContainer.appendChild(icon);
 
