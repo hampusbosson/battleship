@@ -1,6 +1,7 @@
 import Player from './player';
 import Gameboard from './gameboard';
 import PlaceShips from '../dom/placeShips';
+import pregame from '../dom/pregame';
 
 const Game = (() => {
   const playerBoard = PlaceShips.getPlayerBoard();
@@ -28,7 +29,7 @@ const Game = (() => {
     if (playerBoard.allShipsAreSunk()) {
       return 'COMPUTER';
     } else if (computerBoard.allShipsAreSunk()) {
-      return 'PLAYER';
+      return pregame.getPlayerName();
     }
   };
 
