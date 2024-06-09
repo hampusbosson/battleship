@@ -32,11 +32,11 @@ const helper = (() => {
   };
 
   const loadGridSquare = () => {
-    const gridContainer = create('div', {
+    const gridContainer = helper.create('div', {
       className: 'setup-grid-container',
       position: 'relative',
     });
-    const gridSquare = create('div', {
+    const gridSquare = helper.create('div', {
       className: 'setup-grid',
       id: 'setup-grid',
       position: 'absolute',
@@ -45,7 +45,7 @@ const helper = (() => {
 
     loadGrid().forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
-        let square = create('div', {
+        let square = helper.create('div', {
           className: 'grid-square',
           id: `${rowIndex}${columnIndex}`,
         });
@@ -83,10 +83,10 @@ const helper = (() => {
   };
 
   const loadCommanderIcon = () => {
-    const iconContainer = create('div', {
+    const iconContainer = helper.create('div', {
       className: 'commander-icon-box',
     });
-    const commanderIcon = create('img', {
+    const commanderIcon = helper.create('img', {
       src: commanderIconPath,
       className: 'commander-icon',
     });
@@ -147,28 +147,7 @@ const helper = (() => {
       shipContainer.style.height = '3rem';
     }
 
-    let iconURL;
-    switch (shipType) {
-      case 'Carrier':
-        iconURL = carrierIconPath;
-        break;
-      case 'Battleship':
-        iconURL = battleshipIconPath;
-        break;
-      case 'Cruiser':
-        iconURL = cruiserIconPath;
-        break;
-      case 'Submarine':
-        iconURL = submarineIconPath;
-        break;
-      case 'Destroyer':
-        iconURL = destroyerIconPath;
-        break;
-      default:
-        console.error('Unknown ship type');
-        return;
-    }
-
+    let iconURL = `../assets/icons/${shipType}-${axis}.svg`;
     let icon = create('img', { src: iconURL, className: 'ship' });
     shipContainer.appendChild(icon);
 
